@@ -1,0 +1,5 @@
+ChuteLibre.make
+.vscode/*
+**/bin
+**/obj
+**/Makefile
