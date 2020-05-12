@@ -4,23 +4,70 @@
 #include "Vector3.h"
 
 
+void Scene::sphere(float x, float y, float z, float radius, const std::string& materialName)
+{
+    Vector3 position = Vector3(x, y, z);
+
+    Mesh& mesh = meshes.emplace_back();
+    mesh.material = materialName;
+
+    mesh.vertices.push_back(Vector3());
+
+    //12 Points of the Icosahedron (from https://people.sc.fsu.edu/~jburkardt/data/obj/icosahedron.obj)
+    mesh.vertices.push_back(position + radius * Vector3(0, -0.525731, 0.850651));
+    mesh.vertices.push_back(position + radius * Vector3(0.850651, 0, 0.525731));
+    mesh.vertices.push_back(position + radius * Vector3(0.850651, 0, -0.525731));
+    mesh.vertices.push_back(position + radius * Vector3(-0.850651, 0, -0.525731));
+    mesh.vertices.push_back(position + radius * Vector3(-0.850651, 0, 0.525731));
+    mesh.vertices.push_back(position + radius * Vector3(-0.525731, 0.850651, 0));
+    mesh.vertices.push_back(position + radius * Vector3(0.525731, 0.850651, 0));
+    mesh.vertices.push_back(position + radius * Vector3(0.525731, -0.850651, 0));
+    mesh.vertices.push_back(position + radius * Vector3(-0.525731, -0.850651, 0));
+    mesh.vertices.push_back(position + radius * Vector3(0, -0.525731, -0.850651));
+    mesh.vertices.push_back(position + radius * Vector3(0, 0.525731, -0.850651));
+    mesh.vertices.push_back(position + radius * Vector3(0, 0.525731, 0.850651));
+    
+    //20 faces of the Icosahedron
+    mesh.triangles.push_back(2); mesh.triangles.push_back(3); mesh.triangles.push_back(7);
+    mesh.triangles.push_back(2); mesh.triangles.push_back(8); mesh.triangles.push_back(3);
+    mesh.triangles.push_back(4); mesh.triangles.push_back(5); mesh.triangles.push_back(6);
+    mesh.triangles.push_back(5); mesh.triangles.push_back(4); mesh.triangles.push_back(9);
+    mesh.triangles.push_back(7); mesh.triangles.push_back(6); mesh.triangles.push_back(12);
+    mesh.triangles.push_back(6); mesh.triangles.push_back(7); mesh.triangles.push_back(11);
+    mesh.triangles.push_back(10); mesh.triangles.push_back(11); mesh.triangles.push_back(3);
+    mesh.triangles.push_back(11); mesh.triangles.push_back(10); mesh.triangles.push_back(4);
+    mesh.triangles.push_back(8); mesh.triangles.push_back(9); mesh.triangles.push_back(10);
+    mesh.triangles.push_back(9); mesh.triangles.push_back(8); mesh.triangles.push_back(1);
+    mesh.triangles.push_back(12); mesh.triangles.push_back(1); mesh.triangles.push_back(2);
+    mesh.triangles.push_back(1); mesh.triangles.push_back(12); mesh.triangles.push_back(5);
+    mesh.triangles.push_back(7); mesh.triangles.push_back(3); mesh.triangles.push_back(11);
+    mesh.triangles.push_back(2); mesh.triangles.push_back(7); mesh.triangles.push_back(12);
+    mesh.triangles.push_back(4); mesh.triangles.push_back(6); mesh.triangles.push_back(11);
+    mesh.triangles.push_back(6); mesh.triangles.push_back(5); mesh.triangles.push_back(12);
+    mesh.triangles.push_back(3); mesh.triangles.push_back(8); mesh.triangles.push_back(10);
+    mesh.triangles.push_back(8); mesh.triangles.push_back(2); mesh.triangles.push_back(1);
+    mesh.triangles.push_back(4); mesh.triangles.push_back(10); mesh.triangles.push_back(9);
+    mesh.triangles.push_back(5); mesh.triangles.push_back(9); mesh.triangles.push_back(1);
+}
+
 void Scene::cube(float x, float y, float z, float size, const std::string& materialName)
 {
+    Vector3 position = Vector3(x, y, z);
     float halfSize = size / 2.0f;
 
     Mesh& mesh = meshes.emplace_back();
     mesh.material = materialName;
 
     //Front panel (4 vertices)
-    mesh.vertices.push_back(Vector3(x - halfSize, y - halfSize, z - halfSize));
-    mesh.vertices.push_back(Vector3(x + halfSize, y - halfSize, z - halfSize));
-    mesh.vertices.push_back(Vector3(x + halfSize, y + halfSize, z - halfSize));
-    mesh.vertices.push_back(Vector3(x - halfSize, y + halfSize, z - halfSize));
+    mesh.vertices.push_back(position + Vector3(-halfSize, -halfSize, -halfSize));
+    mesh.vertices.push_back(position + Vector3(+halfSize, -halfSize, -halfSize));
+    mesh.vertices.push_back(position + Vector3(+halfSize, +halfSize, -halfSize));
+    mesh.vertices.push_back(position + Vector3(-halfSize, +halfSize, -halfSize));
     //Back panel (4 vertices)
-    mesh.vertices.push_back(Vector3(x - halfSize, y + halfSize, z + halfSize));
-    mesh.vertices.push_back(Vector3(x + halfSize, y + halfSize, z + halfSize));
-    mesh.vertices.push_back(Vector3(x + halfSize, y - halfSize, z + halfSize));
-    mesh.vertices.push_back(Vector3(x - halfSize, y - halfSize, z + halfSize));
+    mesh.vertices.push_back(position + Vector3(-halfSize, +halfSize, +halfSize));
+    mesh.vertices.push_back(position + Vector3(+halfSize, +halfSize, +halfSize));
+    mesh.vertices.push_back(position + Vector3(+halfSize, -halfSize, +halfSize));
+    mesh.vertices.push_back(position + Vector3(-halfSize, -halfSize, +halfSize));
     
     //Faces
     mesh.triangles.push_back(0); mesh.triangles.push_back(2); mesh.triangles.push_back(1); //face front

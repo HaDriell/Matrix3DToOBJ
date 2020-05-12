@@ -58,7 +58,7 @@ int main(int argc, char** argv)
                     if (!elementProperties) continue;
                     if (!elementProperties->visible) continue;
 
-                    scene.cube(x, y, z, elementProperties->size, elementProperties->name);
+                    scene.sphere(x, y, z, elementProperties->size, elementProperties->name);
                 }
             }
         }
